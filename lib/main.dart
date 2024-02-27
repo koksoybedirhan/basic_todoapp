@@ -1,4 +1,5 @@
 import 'package:basic_todoapp/constants/color.dart';
+import 'package:basic_todoapp/todoitem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,6 +14,9 @@ void main() {
   runApp(const MyApp());
 }
 
+List<String> todo = ["Study Lessons", "Run 5K", "Go to party"];
+List<String> completed = ["Game meetup", "Take out tash"];
+
 class MyApp extends StatefulWidget {
   //statefulWidget
   const MyApp({super.key});
@@ -23,7 +27,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isChecked = false;
-
   @override
   Widget build(BuildContext context) {
     double deviceHeight =
@@ -87,99 +90,14 @@ class _MyAppState extends State<MyApp> {
                       20, 10, 20, 10), //alan etrafina bosluk olusturma icin
                   child: SingleChildScrollView(
                     //(Column'a ctrl+shift+r widget)
-                    child: Column(
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20)), //alanın etrafina shape vermek icin
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.notes_outlined,
-                                  size: 50,
-                                ), //icon olusturma
-                                const Text(
-                                  "Study Lessons",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 21),
-                                ),
-                                Checkbox(
-                                    value: isChecked,
-                                    onChanged: (val) => {
-                                          setState(() {
-                                            isChecked = val!;
-                                          }) //butona basilma kismi
-                                        })
-                              ],
-                            ),
-                          ),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20)), //alanın etrafina shape vermek icin
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.notes_outlined,
-                                  size: 50,
-                                ), //icon olusturma
-                                const Text(
-                                  "Study Lessons",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 21),
-                                ),
-                                Checkbox(
-                                    value: isChecked,
-                                    onChanged: (val) => {
-                                          setState(() {
-                                            isChecked = val!;
-                                          }) //butona basilma kismi
-                                        })
-                              ],
-                            ),
-                          ),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20)), //alanın etrafina shape vermek icin
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.notes_outlined,
-                                  size: 50,
-                                ), //icon olusturma
-                                const Text(
-                                  "Study Lessons",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 21),
-                                ),
-                                Checkbox(
-                                    value: isChecked,
-                                    onChanged: (val) => {
-                                          setState(() {
-                                            isChecked = val!;
-                                          }) //butona basilma kismi
-                                        })
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+                    child: ListView.builder(
+                      //todo stringindeki verileri listelemek icin
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: todo.length,
+                      itemBuilder: (context, index) {
+                        return TodoItem(title: todo[index]);
+                      },
                     ),
                   ),
                 ),
@@ -204,102 +122,15 @@ class _MyAppState extends State<MyApp> {
                   padding: const EdgeInsets.fromLTRB(
                       20, 10, 20, 10), //alan etrafina bosluk olusturma icin
                   child: SingleChildScrollView(
-                    //(Column'a ctrl+shift+r widget)
-                    child: Column(
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20)), //alanın etrafina shape vermek icin
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.notes_outlined,
-                                  size: 50,
-                                ), //icon olusturma
-                                const Text(
-                                  "Study Lessons",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 21),
-                                ),
-                                Checkbox(
-                                    value: isChecked,
-                                    onChanged: (val) => {
-                                          setState(() {
-                                            isChecked = val!;
-                                          }) //butona basilma kismi
-                                        })
-                              ],
-                            ),
-                          ),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20)), //alanın etrafina shape vermek icin
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.notes_outlined,
-                                  size: 50,
-                                ), //icon olusturma
-                                const Text(
-                                  "Study Lessons",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 21),
-                                ),
-                                Checkbox(
-                                    value: isChecked,
-                                    onChanged: (val) => {
-                                          setState(() {
-                                            isChecked = val!;
-                                          }) //butona basilma kismi
-                                        })
-                              ],
-                            ),
-                          ),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20)), //alanın etrafina shape vermek icin
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.notes_outlined,
-                                  size: 50,
-                                ), //icon olusturma
-                                const Text(
-                                  "Study Lessons",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 21),
-                                ),
-                                Checkbox(
-                                    value: isChecked,
-                                    onChanged: (val) => {
-                                          setState(() {
-                                            isChecked = val!;
-                                          }) //butona basilma kismi
-                                        })
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                      //(Column'a ctrl+shift+r widget)
+                      child: ListView.builder(
+                        primary: false,
+                        shrinkWrap: true,
+                      itemCount: completed.length,
+                      itemBuilder: (context, index) {
+                        return TodoItem(title: completed[index]);
+                      },
+                  )),
                 ),
               ),
               ElevatedButton(
