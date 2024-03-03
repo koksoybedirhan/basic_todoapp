@@ -1,18 +1,25 @@
+import 'package:basic_todoapp/constants/tasktype.dart';
+import 'package:basic_todoapp/model/task.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({super.key, required this.title});
+  const TodoItem({super.key, required this.task});
+  final Task task;
 
-  final String title;
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
 
 class _TodoItemState extends State<TodoItem> {
-    bool isChecked = false;
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: widget.task.isCompleted
+          ? Colors.grey
+          : Colors
+              .white, //yazi kutularina basilirsa arka plan kutusu gri olacak
       shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.circular(20)), //alanın etrafina shape vermek icin
@@ -21,21 +28,51 @@ class _TodoItemState extends State<TodoItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Icon(
-              Icons.notes_outlined,
-              size: 50,
-            ), //icon olusturma
-            Text(
-              widget.title,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+            widget.task.type == TaskType.note
+                //if yerine ternary operation kullandi
+                //amaci todo maddelerine uygun madde resmini vermek
+                ? Image.asset("lib/assets/images/category_1.png")
+                : widget.task.type == TaskType.contest
+                    ? Image.asset("lib/assets/images/category_3.png")
+                    : Image.asset("lib/assets/images/category_2.png"),
+            // const Icon(
+            //   Icons.notes_outlined,
+            //   size: 50,
+            // ), //icon olusturma
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    widget.task.title,
+                    style: TextStyle(
+                        decoration: widget.task.isCompleted
+                            ? TextDecoration.lineThrough //yazilarin uzerine cizgi cekmek icin
+                            : TextDecoration.none,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 21),
+                  ),
+                  Text(
+                    widget.task.description, //tasklara description ekledi
+                    style: TextStyle(
+                        decoration: widget.task.isCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none),
+                  )
+                ],
+              ),
             ),
             Checkbox(
-                value: isChecked,
-                onChanged: (val) => {
-                      setState(() {
-                        isChecked = val!;
-                      }) //butona basilma kismi
-                    })
+              value: isChecked,
+              onChanged: (val) => {
+                setState(
+                  //butona basilma kismi
+                  () {
+                    widget.task.isCompleted = !widget.task.isCompleted;
+                    isChecked = val!;
+                  },
+                )
+              },
+            )
           ],
         ),
       ),
