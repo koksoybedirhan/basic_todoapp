@@ -38,6 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
+  void addNewTask(Task newTask)
+  {
+    setState(() {
+      todo.add(newTask);
+    });
+  }
+
   List<Task> completed = [
     Task(
       type: TaskType.calendar,
@@ -158,7 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AddNewTaskScreen(),
+                    builder: (context) => AddNewTaskScreen(
+                      addNewTask:  (newTask) => addNewTask(newTask),
+                    ),
                   )); //AddNewTaskScreen sayfasina gecis yapmak icin
                 },
                 child: const Text("Add New Task"))
