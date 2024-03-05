@@ -2,6 +2,7 @@ import 'package:basic_todoapp/constants/color.dart';
 import 'package:basic_todoapp/constants/tasktype.dart';
 import 'package:basic_todoapp/model/task.dart';
 import 'package:basic_todoapp/screens/add_new_task.dart';
+import 'package:basic_todoapp/service/todo_service.dart';
 import 'package:basic_todoapp/todoitem.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -61,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    TodoService todoService = TodoService();
+    todoService.getTodos();
     double deviceHeight =
         MediaQuery.of(context).size.height; //telefona gore yukseklik secildi
     double deviceWidth =
