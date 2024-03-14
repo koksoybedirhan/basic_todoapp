@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 //todo islemlerinin json ile haberlesmesini saglayan yer
 class TodoService {
   final String url = "https://dummyjson.com/todos/"; //base url
+  final String addUrl = "https://dummyjson.com/todos/add";
 
   Future<List<Todo>> getUncompletedTodos() async {
     //async eklenerek kod asenkron yapildi, await islemi ile http'ye baglanana kadar beklendi
@@ -19,8 +20,7 @@ class TodoService {
     resp.forEach((element) {
       //rensp listesindeki her elemani dolas
       Todo task = Todo.fromJson(element);
-      if(task.completed! == false)
-      {
+      if (task.completed! == false) {
         todos.add(task);
       }
       //todos listesine ekleme
@@ -29,7 +29,7 @@ class TodoService {
     return todos;
   }
 
-    Future<List<Todo>> getCompletedTodos() async {
+  Future<List<Todo>> getCompletedTodos() async {
     //async eklenerek kod asenkron yapildi, await islemi ile http'ye baglanana kadar beklendi
     //asenkron islem oldugu icin yani linke baglanmayi bekledigi icin future kullandik
     final response = await http.get(Uri.parse(url)); //url'den get yapildi
@@ -41,13 +41,24 @@ class TodoService {
     resp.forEach((element) {
       //rensp listesindeki her elemani dolas
       Todo task = Todo.fromJson(element);
-      if(task.completed! == true)
-      {
+      if (task.completed! == true) {
         todos.add(task);
       }
       //todos listesine ekleme
     });
 
     return todos;
+  }
+
+  Future<String> addTodo(Todo newTodo) async {
+    final response = await http.post(
+      Uri.parse(addUrl),
+      headers: <String, String> {"Content-Type": "application/json; charset=UTF-8"},
+      body: json.encode(newTodo.toJson()),
+    );
+
+    print(response.body);
+    
+    return response.body;
   }
 }
