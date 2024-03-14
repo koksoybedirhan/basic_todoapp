@@ -39,8 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  void addNewTask(Task newTask)
-  {
+  void addNewTask(Task newTask) {
     setState(() {
       todo.add(newTask);
     });
@@ -63,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     TodoService todoService = TodoService();
-    todoService.getTodos();
+
     double deviceHeight =
         MediaQuery.of(context).size.height; //telefona gore yukseklik secildi
     double deviceWidth =
@@ -115,20 +114,31 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Expanded(
-              //Top Columng
+              //Top Column
               //(Column'a ctrl+shift+r widget) Colum disindaki her alani rahatlikla kullanmak icin
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(
                     20, 10, 20, 10), //alan etrafina bosluk olusturma icin
                 child: SingleChildScrollView(
                   //(Column'a ctrl+shift+r widget)
-                  child: ListView.builder(
-                    //todo stringindeki verileri listelemek icin
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: todo.length,
-                    itemBuilder: (context, index) {
-                      return TodoItem(task: todo[index],);
+                  child: FutureBuilder(
+                    future: todoService.getUncompletedTodos(),
+                    builder: (context, snapshot) {
+                      //verinin cekildigi saatteki verinin goruntusu
+                      if (snapshot.data == null) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        return ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return TodoItem(
+                              task: snapshot.data![index],
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
@@ -154,22 +164,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.fromLTRB(
                     20, 10, 20, 10), //alan etrafina bosluk olusturma icin
                 child: SingleChildScrollView(
-                    //(Column'a ctrl+shift+r widget)
-                    child: ListView.builder(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: completed.length,
-                  itemBuilder: (context, index) {
-                    return TodoItem(task:completed[index],);
-                  },
-                )),
+                  //(Column'a ctrl+shift+r widget)
+                  child: FutureBuilder(
+                    future: todoService.getCompletedTodos(),
+                    builder: (context, snapshot) {
+                      //verinin cekildigi saatteki verinin goruntusu
+                      if (snapshot.data == null) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        return ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return TodoItem(
+                              task: snapshot.data![index],
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddNewTaskScreen(
-                      addNewTask:  (newTask) => addNewTask(newTask),
+                      addNewTask: (newTask) => addNewTask(newTask),
                     ),
                   )); //AddNewTaskScreen sayfasina gecis yapmak icin
                 },
